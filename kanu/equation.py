@@ -57,16 +57,20 @@ def solve_single_linear_equation(equation: str) -> str:
                 rs = OperatorList(*rs.members, Element.mul(element, Element('-1')))
                 ls = OperatorList(*ls.members, Element.mul(element, Element('-1')))
                 break
+            
+    print(ls, rs)
 
     if len(ls.members) == 0 and len(rs.members) == 0:
         return 'There are infinite solutions'
 
+    
     if len(ls.members) == 0 or len(rs.members) == 0:
         return f'{ls_vars.pop()} = 0'
+
 
     if len(ls.members) == 1 and len(rs.members) == 1:
         divisor = Element(f'{ls.members[0].coefficient}')
         ls = OperatorList(ls.members[0], divisor, operation='/')
         rs = OperatorList(rs.members[0], divisor, operation='/')
-
+        
     return f'{ls.print()} = {rs.print()}'
