@@ -240,5 +240,6 @@ def all_together_now(expression: str) -> OperatorList:
     ex = format_parens(expression)
     ex = parse_expression(ex)
     ex = to_rpn(ex)
+    print("STEP == " + str(to_op_list(ex)))
     return to_op_list(ex)
 

@@ -58,7 +58,7 @@ def solve_single_linear_equation(equation: str) -> str:
                 ls = OperatorList(*ls.members, Element.mul(element, Element('-1')))
                 break
             
-    print(ls, rs)
+    # print(ls, rs)
 
     if len(ls.members) == 0 and len(rs.members) == 0:
         return 'There are infinite solutions'
