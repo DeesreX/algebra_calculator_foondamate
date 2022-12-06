@@ -1,6 +1,7 @@
 from kanu.expression import *
 
 
+
 class NonLinearEquationError(Exception):
     """ Raised when the given equation is non-linear
     """
@@ -20,6 +21,7 @@ def solve_single_linear_equation(equation: str) -> str:
     try:
         ls = all_together_now(equation[:equal_sign])
         rs = all_together_now(equation[equal_sign + 1:])
+        
     except (MismatchedParenthesisError, InvalidElementError, InvalidExpressionError):
         return 'This equation is syntactically invalid!'
 
@@ -49,16 +51,21 @@ def solve_single_linear_equation(equation: str) -> str:
                 if elem.variable.components[key] != Element('1'):
                     raise NonLinearEquationError()
 
-    while len(find_variables(ls)) < len(ls.members):
+    while len(find_variables(ls)) < len(ls.members):        
         # if the above condition is true, there are elements in ls which do not have variables
         for element in ls.members:
+            
             if element.variable.components == {}:
+                previouse_equation = str(ls) + " = " + str(rs)
                 # subtracting the element with a variable from both sides
                 rs = OperatorList(*rs.members, Element.mul(element, Element('-1')))
                 ls = OperatorList(*ls.members, Element.mul(element, Element('-1')))
+                current_equation = str(ls) + " = " + str(rs)
+                result = compare_equation(current_equation, previouse_equation)
+                print("RESULT == ", result)
+                print(ls, "=", rs)
                 break
             
-    # print(ls, rs)
 
     if len(ls.members) == 0 and len(rs.members) == 0:
         return 'There are infinite solutions'
@@ -74,3 +81,15 @@ def solve_single_linear_equation(equation: str) -> str:
         rs = OperatorList(rs.members[0], divisor, operation='/')
         
     return f'{ls.print()} = {rs.print()}'
+
+def compare_equation(current_equation, previouse_equation):        
+    # find the difference between the two equations and return the result
+    
+    print("CURRENT EQUATION == ", current_equation)
+    print("PREVIOUS EQUATION == ", previouse_equation)
+    
+    result = []
+    for expression in previouse_equation.split(" "):
+        if expression not in current_equation.split(" "):
+            result.append(expression)
+    return result

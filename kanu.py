@@ -29,5 +29,6 @@ import kanu
     
 
 expression = "2(4x + 3) + 6 = 24 -4x"
+print(expression)
 result = kanu.solve_single_linear_equation(expression)
 print(result)
